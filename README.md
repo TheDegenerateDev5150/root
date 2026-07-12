@@ -1,4 +1,4 @@
-# 🐧 Root — Escalado de Privilegios en Linux
+### Root — Escalado de Privilegios en Linux
 
 ![License](https://img.shields.io/badge/plataforma-Linux-blue.svg)
 ![C](https://img.shields.io/badge/C-70.7%25-blue.svg)
@@ -12,11 +12,9 @@
 
 Recopilación de **técnicas y exploits públicos (PoC)** para escalado de privilegios a **root** en sistemas Linux: desde comprobaciones manuales clásicas (SUID, sudo) hasta pruebas de concepto de CVEs concretas del kernel y de utilidades del sistema como `sudo` o `pkexec`.
 
-> 📌 Proyecto mantenido por [hackingyseguridad.com](http://www.hackingyseguridad.com/)
-
 ---
 
-## 📑 Tabla de contenidos
+### Tabla de contenidos
 
 - [¿Qué es el escalado de privilegios?](#-qué-es-el-escalado-de-privilegios)
 - [¿Qué incluye este repositorio?](#-qué-incluye-este-repositorio)
@@ -32,7 +30,7 @@ Recopilación de **técnicas y exploits públicos (PoC)** para escalado de privi
 
 ---
 
-## 🧩 ¿Qué es el escalado de privilegios?
+### el escalado/elevacion de privilegios
 
 El **escalado de privilegios** (*privilege escalation*) es la técnica mediante la cual un atacante que ya tiene acceso limitado a un sistema (usuario sin privilegios) consigue elevar su nivel de acceso hasta obtener permisos de **root/administrador**. En Linux, los vectores más comunes incluyen:
 
@@ -43,18 +41,18 @@ El **escalado de privilegios** (*privilege escalation*) es la técnica mediante 
 
 ---
 
-## 📦 ¿Qué incluye este repositorio?
+### ¿Qué incluye este repositorio?
 
 | Categoría | Contenido |
 |---|---|
-| 🎯 PoC por CVE | Carpetas independientes con exploits públicos para CVEs concretas del kernel y de `sudo`/Polkit |
-| 🛠️ Scripts de auditoría | `audit.sh`, `poc.sh`, `prueba.sh`, `kernel3.sh`, `root.sh` — comprobación y explotación |
-| 📚 Referencia documental | Listado ampliado de CVEs históricas relacionadas con `sudo` |
-| 🖼️ Recursos gráficos | Capturas ilustrativas de la explotación (`root.jpg`, `CVE-2025-32463.png`) |
+| PoC por CVE | Carpetas independientes con exploits públicos para CVEs concretas del kernel y de `sudo`/Polkit |
+| Scripts de auditoría | `audit.sh`, `poc.sh`, `prueba.sh`, `kernel3.sh`, `root.sh` — comprobación y explotación |
+| Referencia documental | Listado ampliado de CVEs históricas relacionadas con `sudo` |
+| Recursos gráficos | Capturas ilustrativas de la explotación (`root.jpg`, `CVE-2025-32463.png`) |
 
 ---
 
-## 🚀 Instalación
+### Instalación
 
 ```bash
 cd /tmp
@@ -65,25 +63,25 @@ sh root.sh
 
 ---
 
-## 🔍 Técnica manual: binarios SUID
+###  Técnica manual: binarios SUID
 
 Antes de recurrir a exploits específicos de CVE, la primera comprobación en cualquier auditoría de post-explotación es buscar binarios con el bit **SUID** activo (`Set User ID`, permiso `4000`), ya que se ejecutan con los privilegios de su propietario (a menudo root) independientemente de quién los invoque.
 
 | Paso | Comando | Propósito |
 |---|---|---|
-| 1️⃣ Buscar binarios SUID | `find / -perm -4000 2>/dev/null` | Localizar ejecutables que corren como root |
-| 2️⃣ Probar shell privilegiada | `/usr/bin/sudo /bin/sh -p` seguido de `whoami` | Verificar si se obtiene una shell con privilegios root |
-| 3️⃣ Persistencia (solo en pruebas autorizadas) | `sudo chmod +s /bin/sh` o `sudo chmod +s /bin/bash` | Activa el bit SUID sobre la shell: cualquier usuario que la ejecute obtiene privilegios de root |
+| Buscar binarios SUID | `find / -perm -4000 2>/dev/null` | Localizar ejecutables que corren como root |
+| Probar shell privilegiada | `/usr/bin/sudo /bin/sh -p` seguido de `whoami` | Verificar si se obtiene una shell con privilegios root |
+| Persistencia (solo en pruebas autorizadas) | `sudo chmod +s /bin/sh` o `sudo chmod +s /bin/bash` | Activa el bit SUID sobre la shell: cualquier usuario que la ejecute obtiene privilegios de root |
 
 <p align="center">
   <img src="root.jpg" alt="Elevación de privilegios a root vía sudo" width="500"/>
 </p>
 
-> ⚠️ El paso 3 (persistencia) **modifica permisos del sistema** y solo debe usarse en entornos de laboratorio o auditorías con autorización expresa — nunca en sistemas de producción sin consentimiento.
+> El paso 3 (persistencia) **modifica permisos del sistema** y solo debe usarse en entornos de laboratorio o auditorías con autorización expresa — nunca en sistemas de producción sin consentimiento.
 
 ---
 
-## 🎯 Catálogo de exploits (PoC) por CVE
+### Exploits (PoC) por CVE
 
 | CVE | Componente afectado | Versiones afectadas | Severidad / Impacto | Vector de explotación (resumen) |
 |---|---|---|---|---|
@@ -101,11 +99,11 @@ Antes de recurrir a exploits específicos de CVE, la primera comprobación en cu
   <img src="CVE-2025-32463.png" alt="CVE-2025-32463 - sudo chroot privilege escalation" width="500"/>
 </p>
 
-> 📌 A diferencia de las CVEs de Sudo/Polkit (que requieren solo ejecución local), **CVE-2026-24061** es explotable de forma **remota** vía Telnet — trátala con prioridad si el servicio está expuesto.
+>  A diferencia de las CVEs de Sudo/Polkit (que requieren solo ejecución local), **CVE-2026-24061** es explotable de forma **remota** vía Telnet — trátala con prioridad si el servicio está expuesto.
 
 ---
 
-## 📂 Otras carpetas del repositorio
+### Otras carpetas
 
 | Carpeta / Script | Contenido |
 |---|---|
@@ -122,7 +120,7 @@ Antes de recurrir a exploits específicos de CVE, la primera comprobación en cu
 
 ---
 
-## 📚 Otras CVE relevantes de `sudo` (referencia)
+### Otras CVE relevantes de `sudo` (referencia)
 
 Además de las PoC incluidas en el repositorio, esta es una lista de referencia de otras vulnerabilidades históricas de `sudo` relacionadas con escalado de privilegios, útil para contextualizar auditorías más amplias:
 
@@ -152,51 +150,10 @@ Además de las PoC incluidas en el repositorio, esta es una lista de referencia 
 
 ---
 
-## 🛡️ Buenas prácticas de mitigación
+#
 
-| Medida | Efecto |
-|---|---|
-| Mantener el kernel y `sudo`/Polkit actualizados | Cierra las CVEs conocidas antes de que sean explotadas |
-| Auditar periódicamente binarios SUID (`find / -perm -4000`) | Detecta configuraciones peligrosas o binarios innecesarios con SUID |
-| Aplicar el principio de mínimo privilegio en `sudoers` | Reduce la superficie de abuso de reglas `Runas ALL` u otras permisivas |
-| Deshabilitar `pwfeedback` y opciones no esenciales de `sudo` | Elimina vectores de desbordamiento conocidos |
-| Monitorización de integridad de archivos (AIDE, auditd) | Detecta modificaciones no autorizadas en binarios críticos |
-| Restringir acceso a `telnetd` o deshabilitarlo en favor de SSH | Evita vectores remotos como CVE-2026-24061 |
-| Segmentación y hardening de kernel (SELinux/AppArmor, `sysctl`) | Limita el impacto de un exploit de kernel exitoso |
+[www.hackingyseguridad.com](http://www.hackingyseguridad.com/)
 
----
+[github.com/hackingyseguridad](https://github.com/hackingyseguridad)
 
-## ⚠️ Aviso legal / Uso responsable
-
-Este repositorio se proporciona **exclusivamente con fines educativos y de investigación en ciberseguridad**.
-
-- ❌ No ejecutes estos scripts ni PoC contra sistemas que **no sean de tu propiedad** o para los que no tengas **autorización explícita y por escrito**.
-- ⚖️ El uso no autorizado de técnicas de escalado de privilegios constituye un **delito** en la mayoría de jurisdicciones.
-- 🧑‍💻 Los autores y colaboradores **no se hacen responsables** del uso indebido que se le pueda dar a este software.
-- ✅ Uso recomendado: laboratorios propios, máquinas de práctica (HTB, TryHackMe, VulnHub), CTFs y auditorías de seguridad (pentesting) contratadas con alcance y consentimiento expresos.
-
----
-
-## 📜 Licencia
-
-Consulta el repositorio para conocer los términos de licencia aplicables a cada componente/PoC incluido.
-
----
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas:
-
-1. Haz un *fork* del repositorio.
-2. Crea una rama para tu mejora: `git checkout -b cve/nueva-poc`.
-3. Haz *commit* de tus cambios, incluyendo referencia a la CVE (NVD) cuando aplique.
-4. Abre un *Pull Request* describiendo el cambio.
-
-Para reportar errores o proponer nuevas CVEs a documentar, abre un [Issue](https://github.com/hackingyseguridad/root/issues).
-
----
-
-## 🔗 Enlaces
-
-- 🌐 Sitio web: [www.hackingyseguridad.com](http://www.hackingyseguridad.com/)
-- 📁 Diccionarios y otras herramientas: [github.com/hackingyseguridad](https://github.com/hackingyseguridad)
+#
