@@ -151,9 +151,5 @@ Además de las PoC incluidas en el repositorio, esta es una lista de referencia 
 ---
 
 #
-
 [www.hackingyseguridad.com](http://www.hackingyseguridad.com/)
-
-[github.com/hackingyseguridad](https://github.com/hackingyseguridad)
-
 #
